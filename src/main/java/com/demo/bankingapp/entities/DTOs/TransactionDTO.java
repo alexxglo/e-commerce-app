@@ -1,7 +1,6 @@
 package com.demo.bankingapp.entities.DTOs;
 
 public class TransactionDTO {
-    private Long id;
 
     private Long senderId;
 
@@ -17,14 +16,6 @@ public class TransactionDTO {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getSenderId() {

@@ -27,8 +27,17 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
+    @PostMapping
+    public ResponseEntity<Account> addAccount(@RequestParam Long openerId) {
+        try {
+            return new ResponseEntity<>(accountService.addAccount(openerId), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping("/balance/{accountId}")
-    public ResponseEntity<Account> addBalance(@RequestBody float amount, @PathVariable Long accountId) {
+    public ResponseEntity<Account> addBalance(@RequestParam float amount, @PathVariable Long accountId) {
         try {
             return new ResponseEntity<>(accountService.addBalance(amount, accountId), HttpStatus.OK);
         }
