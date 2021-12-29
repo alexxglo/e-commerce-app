@@ -1,6 +1,7 @@
 package com.demo.bankingapp.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity(name = "users")
@@ -10,21 +11,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String firstName;
 
+    @NotBlank
     @Column(nullable = false)
     private String lastName;
 
+    @NotBlank
     @Column(nullable = false)
     private int age;
 
+    @NotBlank
     @Column(unique = true)
     private int UID;
 
+    @NotBlank
     @Column(unique = true, nullable = false, length = 15)
     private int phoneNo;
 
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String email;
 

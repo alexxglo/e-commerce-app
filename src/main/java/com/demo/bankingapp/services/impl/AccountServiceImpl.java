@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account addBalance(float amount, Long accountId) {
         if (amount <= 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException("Value below zero");
         }
         Account account = accountRepository.getById(accountId);
         account.setBalance(account.getBalance() + amount);
@@ -43,12 +43,11 @@ public class AccountServiceImpl implements AccountService {
                     && accountRepository.findById(transaction.getReceiverId()).get() != null) {
                 addBalance(transaction.getAmount(), transaction.getReceiverId());
                 lowerBalance(transaction.getAmount(), transaction.getSenderId());
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Balance below zero");
         }
         return accountRepository.findById(transaction.getSenderId()).get();
     }
@@ -58,16 +57,15 @@ public class AccountServiceImpl implements AccountService {
         if (userRepository.findById(openerId).get() != null) {
             User user = userRepository.findById(openerId).get();
             return accountRepository.save(createDefaultAccount(user));
-        } else {
-            throw new IllegalArgumentException();
         }
+        throw new IllegalArgumentException();
     }
 
     private Account lowerBalance(float amount, Long accountId) {
         Account account = accountRepository.getById(accountId);
         account.setBalance(account.getBalance() - amount);
         if (account.getBalance() < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalStateException("Balance below zero");
         }
         return accountRepository.save(account);
     }

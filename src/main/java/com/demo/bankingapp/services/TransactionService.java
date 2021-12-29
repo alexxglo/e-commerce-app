@@ -9,5 +9,5 @@ public interface TransactionService {
 
     public Transaction markTransaction(TransactionDTO transaction);
 
-    public List<Transaction> getTransactionsHistoryByYearAndMonth(String date);
+    public List<Transaction> getTransactionsHistoryByYearAndMonth(String date, Long accountId);
 }

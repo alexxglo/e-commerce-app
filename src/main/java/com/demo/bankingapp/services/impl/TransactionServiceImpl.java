@@ -28,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsHistoryByYearAndMonth(String date) {
+    public List<Transaction> getTransactionsHistoryByYearAndMonth(String date, Long accountId) {
 
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
@@ -38,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
         LocalDate dateTime = LocalDate.parse(date, formatter);
         LocalDateTime endDate = LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),28,0,0).with(TemporalAdjusters.lastDayOfMonth());
         LocalDateTime startDate = LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(), 1, 0, 0).with(TemporalAdjusters.firstDayOfMonth());
-        return transactionRepository.getTransactionByMonthAndYear(startDate, endDate);
+        return transactionRepository.getTransactionByMonthAndYear(startDate, endDate, accountId);
 }
 
     public Transaction addTransaction(TransactionDTO transactionRequest) {

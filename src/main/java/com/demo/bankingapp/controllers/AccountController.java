@@ -28,9 +28,9 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> addAccount(@RequestParam Long openerId) {
+    public ResponseEntity<Account> addAccount(@RequestParam Long openerAccountId) {
         try {
-            return new ResponseEntity<>(accountService.addAccount(openerId), HttpStatus.OK);
+            return new ResponseEntity<>(accountService.addAccount(openerAccountId), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -46,20 +46,4 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/transfer")
-    public ResponseEntity<String> transferFunds(@RequestBody TransactionDTO transaction) {
-        try {
-            accountService.transferFunds(transaction);
-            transactionService.markTransaction(transaction);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/transfer/history")
-    public List<Transaction> getTransactionsHistoryByYearAndMonth(@RequestParam String date) {
-        return transactionService.getTransactionsHistoryByYearAndMonth(date);
-    }
 }
