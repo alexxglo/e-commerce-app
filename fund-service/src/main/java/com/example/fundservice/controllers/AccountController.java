@@ -49,4 +49,14 @@ public class AccountController {
     public ResponseEntity<AccountDTO> buyProduct(@RequestParam Long accountNumber, @RequestParam float price) {
         return accountService.buyProduct(accountNumber, price);
     }
+
+    @GetMapping("/search")
+    public Long searchUser(@RequestParam Long accountNumber) {
+        try {
+            return accountService.searchUser(accountNumber);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+    }
 }

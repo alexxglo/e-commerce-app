@@ -24,3 +24,15 @@ spring:
           uri: lb://e-commerce-service
           predicates:
             - Path=/e-commerce/**
+        - id: vendor-service
+          uri: lb://vendor-service
+          predicates:
+            - Path=/vendor/**
+        - id: food-service
+          uri: lb://food-service
+          predicates:
+              - Path=/food/**
+        - id: food-booking-service
+          uri: lb://food-booking-service
+          predicates:
+              - Path=/food-booking/**

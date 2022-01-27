@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -76,6 +77,15 @@ public class AccountServiceImpl implements AccountService {
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public Long searchUser(Long accountNumber) {
+        Optional<Account> user = accountRepository.findById(accountNumber);
+        if(user.isPresent()) {
+            return user.get().getUser().getId();
+        }
+        throw new IllegalArgumentException();
     }
 
     private Account lowerBalance(float amount, Long accountId) {
