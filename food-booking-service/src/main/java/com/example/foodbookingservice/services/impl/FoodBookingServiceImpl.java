@@ -35,7 +35,7 @@ public class FoodBookingServiceImpl implements FoodBookingService {
     public ResponseEntity<OrderDTO> placeOrder(Long userId, List<FoodDTO> order) {
         try {
             fundClient.searchUser(userId);
-            OrderHistory orderHistory = makeNewOrder(userId, getTotalPriceOfOrder(order), order);
+            OrderHistory orderHistory = makeNewOrder(userId, getTotalPriceOfOrder(order));
             List<OrderDetails> orderDetails = foodDTOtoOrderDetails(order);
             orderHistory.setFoodList(orderDetails);
             OrderHistory orderHistorySaved = orderHistoryRepository.save(orderHistory);
@@ -106,7 +106,7 @@ public class FoodBookingServiceImpl implements FoodBookingService {
         }
         return totalPrice;
     }
-    private OrderHistory makeNewOrder(Long userId, float totalPrice, List<FoodDTO> order) {
+    private OrderHistory makeNewOrder(Long userId, float totalPrice) {
         OrderHistory newOrder = new OrderHistory();
         newOrder.setUserId(userId);
         newOrder.setTotalPrice(totalPrice);
