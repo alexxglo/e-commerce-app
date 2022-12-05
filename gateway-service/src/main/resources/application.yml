@@ -1,0 +1,38 @@
+server:
+  port: 8888
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: fund-service
+          uri: lb://fund-service
+          predicates:
+            - Path=/fund/**
+        - id: e-commerce-service
+          uri: lb://e-commerce-service
+          predicates:
+            - Path=/e-commerce/**
+        - id: vendor-service
+          uri: lb://vendor-service
+          predicates:
+            - Path=/vendor/**
+        - id: food-service
+          uri: lb://food-service
+          predicates:
+              - Path=/food/**
+        - id: food-booking-service
+          uri: lb://food-booking-service
+          predicates:
+              - Path=/food-booking/**
