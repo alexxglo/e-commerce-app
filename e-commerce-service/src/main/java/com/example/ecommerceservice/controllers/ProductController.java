@@ -5,6 +5,8 @@ import com.example.ecommerceservice.entities.DTOs.TransactionResponse;
 import com.example.ecommerceservice.entities.Product;
 import com.example.ecommerceservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +16,16 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
+    @Value("${my.app.title}")
+    private String title;
 
     @Autowired
     ProductService productService;
+
+    @GetMapping("/data")
+    public ResponseEntity<String> showProductMsg() {
+        return new ResponseEntity<String>("Value of title from Config Server: " + title, HttpStatus.OK);
+    }
 
     @GetMapping("/search")
     public ResponseEntity<List<Product>> searchProduct(@RequestParam String keyword) {

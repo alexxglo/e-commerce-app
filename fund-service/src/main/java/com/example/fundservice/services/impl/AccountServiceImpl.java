@@ -35,6 +35,9 @@ public class AccountServiceImpl implements AccountService {
         if (amount <= 0) {
             throw new IllegalStateException("Value below zero");
         }
+        if (amount >= 100000) {
+            throw new IllegalArgumentException("Amount over max");
+        }
         Account account = accountRepository.getById(accountId);
         account.setBalance(account.getBalance() + amount);
         return accountRepository.save(account);
@@ -42,18 +45,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account transferFunds(TransactionDTO transaction) {
-        try {
-            if (accountRepository.findById(transaction.getSenderId()).get() != null
-                    && accountRepository.findById(transaction.getReceiverId()).get() != null) {
-                addBalance(transaction.getAmount(), transaction.getReceiverId());
-                lowerBalance(transaction.getAmount(), transaction.getSenderId());
-            } else {
-                throw new IllegalArgumentException();
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Balance below zero");
+        if (!accountRepository.findById(transaction.getSenderId()).isEmpty()
+                && !accountRepository.findById(transaction.getReceiverId()).isEmpty()) {
+            addBalance(transaction.getAmount(), transaction.getReceiverId());
+            lowerBalance(transaction.getAmount(), transaction.getSenderId());
+        } else {
+            throw new IllegalArgumentException("User not found");
         }
-        return accountRepository.findById(transaction.getSenderId()).get();
+        return accountRepository.getById(transaction.getSenderId());
     }
 
     @Override

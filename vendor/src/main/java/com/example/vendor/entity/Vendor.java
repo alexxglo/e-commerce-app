@@ -1,6 +1,7 @@
 package com.example.vendor.entity;
 
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
